@@ -1,0 +1,26 @@
+@layout('emails/layout')
+
+@section('body')
+<div style="padding: 60px 70px; border-top: 1px solid rgba(0,0,0,0.05);">
+  <h1 style="margin-top: 0px;">Hi {{ user.name }},</h1>
+  <div style="color: #636363; font-size: 14px;">
+    Please find below a list of the coupon codes you generated for <b>{{ subscriptionPlan.name }}</b>: <br/>
+    
+    @each(coupon in coupons)
+    <b>{{ coupon.code }}</b> <br>
+    @endeach
+
+    <div style="color: #636363; font-size: 14px; margin-top: 30px;">
+      <i>
+        <b>*If you did not generate these coupons please delete this message and contact your administrator.</b>
+      </i>
+      <br>
+      <br>
+      Thanks,
+      <br>
+      Oncopadi team
+    </div>
+    @include('emails/partials/help')
+  </div>
+</div>
+@endsection

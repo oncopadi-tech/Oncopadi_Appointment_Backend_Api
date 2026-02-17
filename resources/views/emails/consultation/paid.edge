@@ -1,0 +1,14 @@
+@layout('emails/layout')
+
+@section('body')
+<div style="padding: 60px 70px; border-top: 1px solid rgba(0,0,0,0.05);">
+  <h1 style="margin-top: 0px;">Consultation Paid</h1>
+  <div style="color: #636363; font-size: 14px;">
+    <p>Hi, {{ user.name }} just paid
+      <b>{{ amount }}</b> to schedule a consultation for: 
+      <b>{{ date }} {{ time }}</b>
+    </p>
+  </div>
+  @include('emails/partials/help')
+</div>
+@endsection

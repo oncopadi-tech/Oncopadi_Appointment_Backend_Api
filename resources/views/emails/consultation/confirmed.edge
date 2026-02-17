@@ -1,0 +1,17 @@
+@layout('emails/layout')
+
+@section('body')
+<div style="padding: 60px 70px; border-top: 1px solid rgba(0,0,0,0.05);">
+  <h1 style="margin-top: 0px;">Your Consultation has been confirmed</h1>
+  <div style="color: #636363; font-size: 14px;">
+    <p>Hi, your video consultation with 
+      <b>{{ participant }}</b> on 
+      <b>{{ date }} {{ time }}</b> has been confirmed
+    </p>
+    Click the link below to start the consultation <br>
+    <a href="{{ url }}"
+    style="padding: 8px 20px; background-color: #4B72FA; color: #fff; font-weight: bolder; font-size: 16px; display: inline-block; margin: 10px 0px; text-decoration: none;">Start</a>
+  </div>
+  @include('emails/partials/help')
+</div>
+@endsection
