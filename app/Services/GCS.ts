@@ -16,10 +16,11 @@ export default class GCS {
       projectId: gcpProjectId,
       // keyFilename: JSON.parse(gcpKeyFile),
       //credentials: JSON.parse(gcpKeyFile),
-      credentials: {
-        client_email: Env.get("GCP_CLIENT_EMAIL"),
-        private_key: Env.get("GCP_PRIVATE_KEY").split("\\n").join("\n"),
-      },
+      // credentials: {
+      //   client_email: Env.get("GCP_CLIENT_EMAIL"),
+      //   private_key: Env.get("GCP_PRIVATE_KEY").split("\\n").join("\n"),
+      // },
+      credentials: Env.get("GCP_KEY_FILE"),
     });
 
     this.bucket = this.storage.bucket(gcsConfig.bucketName);
