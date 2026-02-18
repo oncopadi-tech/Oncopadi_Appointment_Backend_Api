@@ -14,7 +14,8 @@ export default class GCS {
   constructor() {
     this.storage = new Storage({
       projectId: gcpProjectId,
-      keyFilename: JSON.parse(gcpKeyFile),
+      //  keyFilename: JSON.parse(gcpKeyFile),
+      credentials: JSON.parse(gcpKeyFile),
     });
 
     this.bucket = this.storage.bucket(gcsConfig.bucketName);
