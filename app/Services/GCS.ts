@@ -18,7 +18,7 @@ export default class GCS {
       //credentials: JSON.parse(gcpKeyFile),
       credentials: {
         client_email: Env.get("GCP_CLIENT_EMAIL"),
-        private_key: Env.get("GCP_PRIVATE_KEY").replace(/\\n/g, "\n"),
+        private_key: Env.get("GCP_PRIVATE_KEY").split("\\n").join("\n"),
       },
     });
 
