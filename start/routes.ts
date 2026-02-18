@@ -29,6 +29,7 @@ Route.get("/", "Auth/OAuthController.index");
 Route.post("/register", "Auth/OAuthController.register");
 // Route.group(() => {
 Route.get("/me", "Auth/OAuthController.me").middleware(["auth"]);
+Route.post("/sendFile", "Auth/OAuthController.sendFile").middleware(["auth"]);
 
 Route.post("oauth/login", "Auth/OAuthController.userLogin");
 Route.post("oauth/logout", "Auth/OAuthController.userLogout").middleware([

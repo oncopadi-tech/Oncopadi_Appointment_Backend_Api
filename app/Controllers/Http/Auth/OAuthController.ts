@@ -7,6 +7,8 @@ import GetUnReadMessages from "App/Repos/Chats/Chat/GetUnreadMessages";
 import { schema, rules } from "@ioc:Adonis/Core/Validator";
 import Database from "@ioc:Adonis/Lucid/Database";
 import Hash from "@ioc:Adonis/Core/Hash";
+import GCS from "App/Services/GCS";
+
 export default class OAuthController {
   public async index({ response }: HttpContextContract) {
     return response.json({
@@ -123,4 +125,25 @@ export default class OAuthController {
 
     return response.json(responseObject);
   }
+
+  public sendFile = async ({
+    request,
+    response,
+    auth,
+  }: HttpContextContract) => {
+    let validate = schema.create({
+      picture: schema.file({
+        size: "2mb",
+        extnames: ["jpg", "jpeg", "png", "webp"],
+      }),
+    });
+    let validated = await request.validate({ schema: validate });
+    let user_id = auth.use("api").user?.id;
+    const uploadedFile = await new GCS().uploadFile(
+      validated.picture,
+      `medical-files/${user_id}`,
+    );
+
+    return response.status(200).json({ uploadedFile });
+  };
 }
