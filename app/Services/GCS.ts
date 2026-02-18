@@ -1,30 +1,30 @@
-import { Storage, Bucket } from '@google-cloud/storage'
+import { Storage, Bucket } from "@google-cloud/storage";
 // import Stream from "stream";
-import gcsConfig from 'Config/gcs'
-import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
-import { gcpKeyFile, gcpProjectId } from 'Config/app'
+import gcsConfig from "Config/gcs";
+import { MultipartFileContract } from "@ioc:Adonis/Core/BodyParser";
+import { gcpKeyFile, gcpProjectId } from "Config/app";
 
 /**
  * Google Cloud Storage
  */
 export default class GCS {
-  private bucket: Bucket
-  private storage: Storage
+  private bucket: Bucket;
+  private storage: Storage;
 
   constructor() {
     this.storage = new Storage({
       projectId: gcpProjectId,
-      keyFilename: gcpKeyFile
-    })
+      keyFilename: JSON.parse(gcpKeyFile),
+    });
 
-    this.bucket = this.storage.bucket(gcsConfig.bucketName)
+    this.bucket = this.storage.bucket(gcsConfig.bucketName);
   }
 
-  async uploadFile(file: MultipartFileContract, path = '') {
-    const filePath = `${path}/${file.clientName}`
-    const destination = `${gcsConfig.pathPrefix}/${filePath}`
+  async uploadFile(file: MultipartFileContract, path = "") {
+    const filePath = `${path}/${file.clientName}`;
+    const destination = `${gcsConfig.pathPrefix}/${filePath}`;
 
-    const gcsResponse = await this.bucket.upload(file.tmpPath || '', {
+    const gcsResponse = await this.bucket.upload(file.tmpPath || "", {
       // Support for HTTP requests made with `Accept-Encoding: gzip`
       gzip: true,
       public: true,
@@ -35,22 +35,22 @@ export default class GCS {
         // Enable long-lived HTTP caching headers
         // Use only if the contents of the file will never change
         // (If the contents will change, use cacheControl: 'no-cache')
-        cacheControl: 'no-cache'
-      }
-    })
+        cacheControl: "no-cache",
+      },
+    });
 
-    return { filePath, gcsResponse }
+    return { filePath, gcsResponse };
   }
 
   downloadFile(srcFilename, destination) {
-    return this.bucket.file(srcFilename).download({ destination })
+    return this.bucket.file(srcFilename).download({ destination });
   }
 
   async deleteFile(filePath) {
     const gcsResponse = await this.bucket
       .file(`${gcsConfig.pathPrefix}/${filePath}`)
-      .delete()
+      .delete();
 
-    return { filePath, gcsResponse }
+    return { filePath, gcsResponse };
   }
 }
