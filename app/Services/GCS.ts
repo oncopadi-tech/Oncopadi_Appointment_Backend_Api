@@ -3,7 +3,7 @@ import { Storage, Bucket } from "@google-cloud/storage";
 import gcsConfig from "Config/gcs";
 import { MultipartFileContract } from "@ioc:Adonis/Core/BodyParser";
 import { gcpKeyFile, gcpProjectId } from "Config/app";
-
+import Env from "@ioc:Adonis/Core/Env";
 /**
  * Google Cloud Storage
  */
@@ -15,7 +15,11 @@ export default class GCS {
     this.storage = new Storage({
       projectId: gcpProjectId,
       // keyFilename: JSON.parse(gcpKeyFile),
-      credentials: JSON.parse(gcpKeyFile),
+      //credentials: JSON.parse(gcpKeyFile),
+      credentials: {
+        client_email: Env.get("GCP_CLIENT_EMAIL"),
+        private_key: Env.get("GCP_PRIVATE_KEY").replace(/\\n/g, "\n"),
+      },
     });
 
     this.bucket = this.storage.bucket(gcsConfig.bucketName);
