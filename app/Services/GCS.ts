@@ -7,6 +7,8 @@ import Env from "@ioc:Adonis/Core/Env";
 /**
  * Google Cloud Storage
  */
+const keyFile = Env.get("GCP_KEY_FILE");
+const credentials = JSON.parse(keyFile);
 export default class GCS {
   private bucket: Bucket;
   private storage: Storage;
@@ -20,7 +22,7 @@ export default class GCS {
       //   client_email: Env.get("GCP_CLIENT_EMAIL"),
       //   private_key: Env.get("GCP_PRIVATE_KEY").split("\\n").join("\n"),
       // },
-      credentials: Env.get("GCP_KEY_FILE"),
+      credentials: credentials,
     });
 
     this.bucket = this.storage.bucket(gcsConfig.bucketName);
