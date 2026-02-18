@@ -32,7 +32,9 @@ export const logoUrl: string = Env.get("LOGO_URL") as string;
 
 export const cmsUrl: string = Env.get("CMS_URL") as string;
 
-export const gcpKeyFile: string = Env.get("GCP_KEY_FILE") as string;
+export const gcpKeyFile: string =
+  Env.get("GCP_KEY_FILE") ??
+  ("https://ik.imagekit.io/vc0u4ev3z/solid-heaven-220217-aecea77968f8.json" as string);
 
 export const gcpProjectId: string = Env.get("GCP_PROJECT_ID") as string;
 
